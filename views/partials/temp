@@ -1,0 +1,32 @@
+<% include partials/header  %>
+<div class="extra-nav-adjust">
+	<div class="ui container">
+		<div class="ui grid two column centered stackable">
+			<div class="row">
+				<div class="column">
+					<div id="nearme-map"></div>		
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, perspiciatis possimus nesciunt esse quae aut dicta fugiat, perferendis ad, hic voluptatibus ratione odio cumque adipisci expedita dolor, animi sequi natus.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fuga aliquid iusto corporis saepe veniam dicta ea, distinctio facere qui odit reprehenderit, modi repudiandae sit debitis? Similique iste error vel quia.</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis quas architecto nulla molestiae voluptatum eveniet, cupiditate deleniti, quaerat nemo officia ex adipisci sint aut! Accusantium voluptas veniam, illo qui culpa.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus consequuntur incidunt consequatur optio in ea, facilis, obcaecati aperiam maiores sunt sed excepturi aut maxime laboriosam porro quas, quam distinctio, tempora.</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, officiis nam ut cupiditate voluptatum magni ipsum porro sed cumque laborum consectetur odit voluptate ducimus reiciendis, maiores debitis voluptates saepe nulla!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque incidunt rerum odio facere, voluptatem repellat impedit placeat animi vero atque suscipit neque blanditiis, ea iste molestias eum porro at quam.</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere optio aut impedit cupiditate voluptates enim necessitatibus voluptatibus, dolore dolorum? Consequatur ducimus culpa, minima illum itaque libero reiciendis neque autem facere.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente voluptas recusandae hic quae iusto in voluptatibus illum distinctio libero esse repellat accusantium eius nemo laudantium quas ipsam aperiam soluta, facere!</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et non dolorum aliquam aliquid! Debitis ad a, quibusdam sint quae, animi vitae quam deserunt sapiente, facilis corporis nihil iusto dignissimos et!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur et quaerat natus, amet porro quia recusandae ipsam eligendi eius, repellendus, non ullam! Distinctio officia, rerum. Corrupti voluptate debitis eum nihil.</div>
+				</div>
+				<div class="column">
+					<div class="ui segment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum reprehenderit iste aliquam asperiores delectus hic itaque voluptate repudiandae natus vel sit quo maxime consectetur, quidem expedita aspernatur nisi, voluptatibus error!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur nesciunt, provident quam molestias sunt doloribus amet deserunt odio ad alias quod porro, dolores, a placeat nam. Veniam quaerat, ullam illo</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include partials/footer %>

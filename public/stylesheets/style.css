@@ -1,0 +1,82 @@
+#footnote{
+	height : 100%;
+	background-color : #333333;
+	margin-top : 50px;
+}
+.nav-adjust {
+	margin-top: 44px;
+}
+.extra-nav-adjust {
+	margin-top: 88px;
+}
+.banner {
+	background-image: url('https://images.unsplash.com/photo-1427384906349-30452365b5e8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=089e7c0fe7545b446375b8ddf3e54728');
+	background-size: cover;
+	width : 100%;
+	height : 600px;
+}
+
+.banner .content {
+	text-align: center;
+	padding-top: 10%;
+	color : white;
+	text-shadow :
+		0px 4px 3px rgba(0,0,0,0.4), 
+		0px 8px 13px rgba(0,0,0,0.12),
+		0px 18px 23px rgba(0,0,0,0.1);
+}
+.banner .provider-hint.wrap {
+	position: absolute;
+	right : 20px;
+	top : 70px;
+}
+
+.banner .ui.label.provider-hint {
+	position: relative;
+	font-size: 12px;
+	background-color: white;
+	text-shadow : none;
+	color: #3B5998;
+}
+
+.banner .pwred-google {
+	position: relative;
+	top : 50px;
+/*	font-size: 12px;
+	background-color: white;
+	text-shadow : none;
+	color: #3B5998;*/
+}
+
+
+
+.ui.container.grid.front-search {
+	margin-top : 120px;
+}
+
+.ui.container.grid.front-search .column {
+	width: 450px;
+	height: 450px;
+	margin : 0 15px;
+}
+
+.pull-right {
+	float: right;
+}
+
+.home-body {
+	margin-top : 325px;
+}
+.home-body img {
+	width: 200px;
+	height: 200px;
+}
+textarea .text{
+	width : 100%;
+	height : 100%;
+	resize : none;
+}
+body {
+	font-size : 16px;
+	color: #605050;
+}

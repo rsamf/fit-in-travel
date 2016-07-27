@@ -1,0 +1,94 @@
+<% include ../partials/header  %>
+<div class="extra-nav-adjust">
+	<div class="ui grid">
+		<div class="four wide column">
+	    	<div class="ui vertical fluid tabular menu">
+		        <a href = "/account" class="item">
+		          Profile
+		        </a>
+		        <a href = "/account/reviews" class="item">
+		          Reviews
+		        </a>
+		        <a href = "/account/history" class="active item">
+		          Search History
+		        </a>
+		        <a href = "/account/settings" class="item">
+		          Account Settings
+		        </a>
+	    	</div>
+	    </div>
+	    <div class="twelve wide stretched column">
+	        <div class="ui segment">
+				<div class="ui container two column centered stackable grid">
+					<div class="four wide column">
+						<div class="ui card">
+							<div class="blurring dimmable small image">
+								<div class="ui dimmer">
+							        <div class="content">
+								        <div class="center">
+								           <div class="ui inverted button">Change Photo</div>
+								        </div>
+							        </div>
+							    </div>
+								<img src="/images/image.png" alt="">
+							</div>
+							<div class="content">
+							    <a class="header">Sammy Franklin</a>
+							    <div class="meta">
+							      <span class="date">Joined in 2016</span>
+							    </div>
+							    <div class="description">
+							    	<form action="/account/bio" class="ui form" method = "POST">
+								    	<textarea style = "resize:none; height : 100px;"  name= "bio" placeholder = "Enter custom bio here!"></textarea>
+								    	<div class="ui blue basic button">Save</div>	
+							    	</form>
+							    </div>
+							</div>
+							<div class="extra content">
+							    <a>
+							      <i class="square write icon"></i>
+							      0 Reviews
+							    </a>
+						    </div>
+						</div>			
+					</div>
+					<div class="twelve wide column">
+						<h3 class="ui header">Favorite Activities</h3>
+						<div class="ui segment">Surfing</div>
+						<div class="ui segment">Running</div>
+						<div class="ui segment">Tennis</div>
+					</div>
+					<div class="sixteen wide column">
+						<div class="ui statistics">
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="write square icon"></i> 0
+						    </div>
+						    <div class="label">
+						      Reviews
+						    </div>
+						  </div>
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="star icon"></i> 0
+						    </div>
+						    <div class="label">
+						      Ratings
+						    </div>
+						  </div>
+						  <div class="statistic">
+						    <div class="value">
+						      <i class="search icon"></i> 0
+						    </div>
+						    <div class="label">
+						      Searches
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
+	      	</div>
+	    </div>
+	</div>
+</div>
+<% include ../partials/footer  %>
