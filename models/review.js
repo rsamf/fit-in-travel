@@ -7,6 +7,10 @@ var reviewSchema = new mongoose.Schema({
     author : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
+    },
+    place : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'place'
     }
 }, {
     timeStamps : true

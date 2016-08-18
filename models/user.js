@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 var userSchema = new mongoose.Schema({
-    facebook : object,
+    facebook : Object,
     reviews : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'review'

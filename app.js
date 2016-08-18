@@ -17,8 +17,7 @@ const dbURL = 'mongodb://samf:thebestpassword@ds153815.mlab.com:53815/mango-app'
 //routes
 const routes = require('./routes/index');
 const users = require('./routes/users');
-const newsfeed = require('./routes/newsfeed');
-const location = require('./routes/location');
+const auth = require('./routes/auth');
 const map = require('./routes/map');
 
 const app = express();
@@ -70,7 +69,7 @@ passport.use(new GoogleStrategy({
     },
     function(req, accessToken, refreshToken, profile, done){
         process.nextTick(function(){
-            var handlers = require('./handlers');
+            var handlers = require('./globals');
             var User = require('./models/user');
             User.findOne({
                     "google.id" : profile._json.id
@@ -78,7 +77,7 @@ passport.use(new GoogleStrategy({
                     handlers.onError(res,err);
                     if(!user) {
                         User.create({
-                            google : profile._json,
+                            google : profile._json
                         }, function(err, user){
                             handlers.onError(res, err);
                             return done(null, user);
@@ -92,14 +91,16 @@ passport.use(new GoogleStrategy({
     }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
 
 //routes
 app.use('/', routes);
+app.use('/auth', auth);
 app.use('/users', users);
-app.use('/feed', newsfeed);
-app.use('/location', location);
 app.use('/map', map);
-app.use('/account', account);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

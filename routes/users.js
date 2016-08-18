@@ -4,7 +4,7 @@ var User = require('../models/user')
 var globals = require('../globals');
 
 router.get('/', function(req, res) {
-    res.render('account');
+    getMe(res);
 });
 
 router.get('/reviews', function(req, res){
@@ -20,10 +20,14 @@ router.get('/settings', function(req, res){
 });
 
 router.get('/:id', function(req, res){
-    User.findById(req.params.id, function(err, user){
-        globals.onError(res, err);
-        res.render('account', {user : user});
-    });
+    if(req.params.id === 'me') {
+        getMe(req, res);
+    } else {
+        User.findById(req.params.id, function(err, user){
+            globals.onError(res, err);
+            res.render('account', {user : user});
+        });
+    }
 });
 
 router.put('/', function(req, res) {
@@ -45,6 +49,10 @@ router.delete('/:id', function(req, res){
         globals.onError(res, err);
         res.send('Deleted user ' + req.params.id);
     })
-})
+});
+
+function getMe(res) {
+    res.render('account');
+}
 
 module.exports = router;
