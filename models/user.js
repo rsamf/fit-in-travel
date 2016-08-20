@@ -5,6 +5,11 @@ var userSchema = new mongoose.Schema({
     reviews : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'review'
+    }],
+    blogger : true,
+    blogs : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'blog'
     }]
 }, {
     timeStamps : true

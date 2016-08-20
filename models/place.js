@@ -10,6 +10,10 @@ var placeSchema = new mongoose.Schema({
         },
         coordinates : [Number]
     },
+    images : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'image'
+    }],
     description : String,
     reviews : [{
         type : mongoose.Schema.Types.ObjectId,
