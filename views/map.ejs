@@ -1,0 +1,28 @@
+<!-- Used as an iframe -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple Map</title>
+        <meta name="viewport" content="initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css" type = "text/css">
+        <meta charset="utf-8">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            #map {
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div id="map"></div>
+        <script src = "/javascripts/map.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA9jr8SZ6wWV461F94ayBntzyrfRu5-cXw&callback=initMap&libraries=places"
+                async defer></script>
+    </body>
+</html>

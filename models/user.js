@@ -6,7 +6,10 @@ var userSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.ObjectId,
         ref : 'review'
     }],
-    blogger : true,
+    blogger : {
+        type : Boolean,
+        default : 'false'
+    },
     blogs : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'blog'

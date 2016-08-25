@@ -17,8 +17,10 @@ const dbURL = 'mongodb://samf:thebestpassword@ds153815.mlab.com:53815/mango-app'
 //routes
 const routes = require('./routes/index');
 const users = require('./routes/users');
+const places = require('./routes/places');
 const auth = require('./routes/auth');
 const map = require('./routes/map');
+const icons = require('./routes/icons');
 
 const app = express();
 
@@ -100,7 +102,9 @@ app.use(function(req, res, next){
 app.use('/', routes);
 app.use('/auth', auth);
 app.use('/users', users);
+app.use('/places', places);
 app.use('/map', map);
+app.use('/icons', icons);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
