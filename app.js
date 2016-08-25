@@ -13,7 +13,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 //DB
 const mongoose = require('mongoose');
-const dbURL = 'mongodb://samf:thebestpassword@ds153815.mlab.com:53815/mango-app';
+const dbURL = 'mongodb://samf:thebestpassword@ds059471.mlab.com:59471/fit-in-travel';
 //routes
 const routes = require('./routes/index');
 const users = require('./routes/users');
@@ -64,8 +64,8 @@ passport.deserializeUser(function(obj, done){
 });
 ///OAuth
 passport.use(new GoogleStrategy({
-        clientID : "230827314722-1e14t2obr5ok73slgodc7k6oav86k9sp.apps.googleusercontent.com",
-        clientSecret : "cQ4H-7S4KhMABixQeMGPDxog",
+        clientID : "101781602185-amq1g5btc1d6p5qqbv5l51jnqkrg4afm.apps.googleusercontent.com",
+        clientSecret : "KhbEM3y_zPs2A-uYDLSML3V4",
         callbackURL : "http://ec2-52-41-111-18.us-west-2.compute.amazonaws.com/auth/callback",
         passReqToCallback: true
     },

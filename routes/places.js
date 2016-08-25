@@ -18,7 +18,7 @@ router.get('/map/:id', function(req, res){
 });
 
 router.get('/:id', function(req, res){
-    Place.findById(req.params.id, function(err, place){
+    Place.findById(req.params.id).populate('reviews').exec(function(err, place){
         globals.onError(res, err);
         res.json(place);
     });

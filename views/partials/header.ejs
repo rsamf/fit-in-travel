@@ -27,12 +27,15 @@
 	  	<div class="results"></div>
 	  </div>
 	  <div class="ui right menu">
-		  <a href = "/account" class="item">
-		  	Login
-		  </a>
-		  <a class="item">
-		  	Sign up
-		  </a>
+		  <% if(currentUser) { %>
+			  <a href = "/account" class="item">
+				  <%= currentUser.name %>
+			  </a>
+		  <% } else { %>
+			  <a href = "/auth/login" class="item">
+				Login with Google
+			  </a>
+		  <% } %>
 	  </div>
 	</div>
 	<div class="nav-adjust">
