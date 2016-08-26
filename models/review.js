@@ -4,16 +4,26 @@ var reviewSchema = new mongoose.Schema({
     title : String,
     content : String,
     rating : Number,
+    image : {
+        contentType : String,
+        data : Buffer
+    },
     author : {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'user'
     },
     place : {
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'place'
+        id : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'place'
+        },
+        name : String
     }
 }, {
-    timeStamps : true
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
 });
 
 module.exports = mongoose.model('review', reviewSchema);

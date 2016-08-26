@@ -11,7 +11,10 @@ var blogSchema = new mongoose.Schema({
         ref : 'place'
     }]
 }, {
-    timeStamps : true
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
 });
 
 module.exports = mongoose.model('blog', blogSchema);

@@ -6,11 +6,12 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const multer = require('multer');
+const methodOverride = require('method-override');
 //session
-const session = require('express-session');
-const passport = require('passport');
+var session = require('express-session');
+var passport = require('passport');
 //OAuth
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
 //DB
 const mongoose = require('mongoose');
 const dbURL = 'mongodb://samf:thebestpassword@ds059471.mlab.com:59471/fit-in-travel';
@@ -24,6 +25,8 @@ const icons = require('./routes/icons');
 
 const app = express();
 
+mongoose.connect(dbURL);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -33,6 +36,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(multer({
@@ -49,11 +53,6 @@ app.use(multer({
 }).single('img'));
 
 //session
-app.use(session({
-    secret: 'secret123',
-    resave: true,
-    saveUninitialized: true
-}));
 passport.serializeUser(function(user, done){
     console.log("OO SERIALIZING USER " + typeof(user));
     done(null, user);
@@ -66,31 +65,37 @@ passport.deserializeUser(function(obj, done){
 passport.use(new GoogleStrategy({
         clientID : "101781602185-amq1g5btc1d6p5qqbv5l51jnqkrg4afm.apps.googleusercontent.com",
         clientSecret : "KhbEM3y_zPs2A-uYDLSML3V4",
-        callbackURL : "http://ec2-52-41-111-18.us-west-2.compute.amazonaws.com/auth/callback",
+        callbackURL : "http://ec2-52-26-92-19.us-west-2.compute.amazonaws.com/auth/google/callback",
         passReqToCallback: true
     },
     function(req, accessToken, refreshToken, profile, done){
+        console.log('hello');
         process.nextTick(function(){
-            var handlers = require('./globals');
+            var globals = require('./globals');
             var User = require('./models/user');
             User.findOne({
-                    "google.id" : profile._json.id
-                }, function(err, user) {
-                    handlers.onError(res,err);
-                    if(!user) {
-                        User.create({
-                            google : profile._json
-                        }, function(err, user){
-                            handlers.onError(res, err);
-                            return done(null, user);
-                        });
-                    } else {
+                "google.id" : profile._json.id
+            }, function(err, user) {
+                globals.onError(null, err);
+                if(!user) {
+                    User.create({
+                        google : profile._json
+                    }, function(err, user){
+                        globals.onError(null, err);
                         return done(null, user);
-                    }
+                    });
+                } else {
+                    return done(null, user);
                 }
-            );
+            });
         });
-    }));
+    }
+));
+app.use(session({
+    secret: 'secret123',
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next){

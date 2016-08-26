@@ -6,6 +6,8 @@ module.exports = {
             msg.message = customMessage;
             console.error(msg);
             if(res) res.send(msg);
+        } else {
+            next();
         }
     },
     isLoggedIn : function(req, res, next){

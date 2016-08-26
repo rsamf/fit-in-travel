@@ -147,13 +147,13 @@ function display(){
     if(currentPlace){
         window.parent.showIsLoading(true);
         service.getDetails({placeId : currentPlace}, function(place, status) {
-            console.log(place);
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 window.parent.showIsLoading(false);
                 currentDetails = place;
                 var html =
                     '<div class="ui left attached internal rail">'+
                         '<div style="width:100%;height:100%" class="ui segment">'+
+                            '<button title="Helps to review later" class="basic ui pull-right button"><i class="star icon yellow"></i> Add as favorite</button>'+
                             '<div class="ui dividing header">'+place.name+'</div>' +
                             (
                                 place.photos && place.photos[0] ?
@@ -186,10 +186,12 @@ function display(){
                                     getOpeningHours(place)+
                                 '</div>'+
                             '</div>'+
-                            '<a href="#" onclick="showReviewModal()"">View reviews</a>'+
+                            '<a href="#reviews" onclick="showReviewModal()"">View reviews</a>'+
                         '</div>'+
                     '</div>'
                 ;
+                window.parent.currentDetails = currentDetails;
+                console.log(currentDetails);
                 window.parent.setRailHtmlTo(html);
                 window.parent.resetSemantic();
             }
@@ -218,8 +220,5 @@ function display(){
             str += '</div>';
         }
         return str;
-    }
-    function showReviewModal(currentDetails){
-        window.parent.showReviewModal(currentDetails);
     }
 }

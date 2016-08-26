@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const globals = require('../globals');
 const redirect = {
-    success : '/',
-    failure : '/'
+    successRedirect : '/',
+    failureRedirect : '/'
 };
 
 router.get('/', globals.isLoggedIn, function(req, res){
@@ -18,6 +18,6 @@ router.get('/logout', function(req, res){
     res.redirect('/');
 });
 
-router.get('/callback', passport.authenticate('google', redirect));
+router.get('/google/callback', passport.authenticate('google', redirect));
 
 module.exports = router;

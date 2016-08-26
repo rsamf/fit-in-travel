@@ -28,8 +28,8 @@
 	  </div>
 	  <div class="ui right menu">
 		  <% if(currentUser) { %>
-			  <a href = "/account" class="item">
-				  <%= currentUser.name %>
+			  <a href = "/users" class="item">
+				  <%= currentUser.google.displayName %>
 			  </a>
 		  <% } else { %>
 			  <a href = "/auth/login" class="item">

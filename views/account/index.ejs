@@ -1,49 +1,50 @@
 <% include ../partials/header  %>
+<% include ./partials/header %>
 
 				<div class="ui container two column centered stackable grid">
 					<div class="four wide column">
 						<div class="ui card">
-							<div class="blurring dimmable small image">
-								<div class="ui dimmer">
-							        <div class="content">
-								        <div class="center">
-								           <div class="ui inverted button">Change Photo</div>
-								        </div>
-							        </div>
-							    </div>
-								<img src="/images/image.png" alt="">
+							<div class="small image">
+								<img src="<%= currentUser.google.image.url%>" alt="">
 							</div>
 							<div class="content">
-							    <a class="header">Sammy Franklin</a>
+							    <a class="header"><%= currentUser.google.displayName %></a>
 							    <div class="meta">
-							      <span class="date">Joined in 2016</span>
+							      <span class="date">Joined <%= new Date(currentUser.createdAt).toDateString() %></span>
 							    </div>
 							    <div class="description">
-							    	<form action="/account/bio" class="ui form" method = "POST">
+							    	<form action="/users/<%=currentUser._id%>?_method=PUT" class="ui form" method = "POST">
 								    	<textarea style = "resize:none; height : 100px;"  name= "bio" placeholder = "Enter custom bio here!"></textarea>
-								    	<div class="ui blue basic button">Save</div>	
+								    	<button type="submit" class="ui blue basic button">Save</button>
 							    	</form>
 							    </div>
 							</div>
 							<div class="extra content">
 							    <a>
 							      <i class="square write icon"></i>
-							      0 Reviews
+							      <%= currentUser.reviews.length %> Reviews
 							    </a>
 						    </div>
 						</div>			
 					</div>
 					<div class="twelve wide column">
-						<h3 class="ui header">Favorite Activities</h3>
-						<div class="ui segment">Surfing</div>
-						<div class="ui segment">Running</div>
-						<div class="ui segment">Tennis</div>
+						<h2 class="ui header">Favorite Activities</h2>
+						<% currentUser.favActivities.forEach(function(f) { %>
+							<div class="ui segment">f</div>
+						<% }); %>
+						<form action="/users?_method=PUT" method="POST" class="ui form">
+							<div class="field">
+								<input type="text" name="activity">
+							</div>
+							<button class="ui basic button blue"><i class="add icon"></i> Add</button>
+						</form>
 					</div>
 					<div class="sixteen wide column">
 						<div class="ui statistics">
 						  <div class="statistic">
 						    <div class="value">
-						      <i class="write square icon"></i> 0
+								<% var count = 0; currentUser.reviews.forEach(function(r){ if(!r.content) count--; }); count += currentUser.reviews.length %>
+						      <i class="write square icon"></i> <%= count %>
 						    </div>
 						    <div class="label">
 						      Reviews
@@ -51,7 +52,8 @@
 						  </div>
 						  <div class="statistic">
 						    <div class="value">
-						      <i class="star icon"></i> 0
+
+						      <i class="star icon"></i> <%= currentUser.reviews.length %>
 						    </div>
 						    <div class="label">
 						      Ratings
@@ -59,7 +61,7 @@
 						  </div>
 						  <div class="statistic">
 						    <div class="value">
-						      <i class="search icon"></i> 0
+						      <i class="search icon"></i> <%= currentUser.searches.length %>
 						    </div>
 						    <div class="label">
 						      Searches
@@ -69,4 +71,5 @@
 					</div>
 				</div>
 
+<% include ./partials/footer %>
 <% include ../partials/footer  %>

@@ -5,7 +5,10 @@ var imageSchema = new mongoose.Schema({
     data : Buffer,
     contentType : String
 }, {
-    timeStamps : true
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
 });
 
 module.exports = mongoose.model('image', imageSchema);

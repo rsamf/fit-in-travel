@@ -1,72 +1,32 @@
 <% include ../partials/header  %>
 <% include partials/header %>
-    <div class="ui container two column centered stackable grid">
-        <div class="four wide column">
-            <div class="ui card">
-                <div class="blurring dimmable small image">
-                    <div class="ui dimmer">
-                        <div class="content">
-                            <div class="center">
-                               <div class="ui inverted button">Change Photo</div>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="/images/image.png" alt="">
-                </div>
-                <div class="content">
-                    <a class="header">Sammy Franklin</a>
-                    <div class="meta">
-                      <span class="date">Joined in 2016</span>
-                    </div>
-                    <div class="description">
-                        <form action="/account/bio" class="ui form" method = "POST">
-                            <textarea style = "resize:none; height : 100px;"  name= "bio" placeholder = "Enter custom bio here!"></textarea>
-                            <div class="ui blue basic button">Save</div>
-                        </form>
-                    </div>
-                </div>
-                <div class="extra content">
-                    <a>
-                      <i class="square write icon"></i>
-                      0 Reviews
-                    </a>
+<div class="sixteen wide column">
+    <h2 class="ui header">Searches</h2>
+    <div class="ui divider"></div>
+    <% if (currentUser.searches.length === 0) { %>
+    <h2 class="ui header center aligned">Empty results</h2>
+    <% } else { %>
+    <div class="ui divided items">
+        <% currentUser.searches.forEach(function(s){ %>
+        <div class="item">
+            <div class="ui tiny image">
+                <img src="/images/image.png">
+            </div>
+            <div class="content">
+                <div class="header"><%= s.query %></div>
+                <span class="meta">
+                        <span class="date"><%= new Date(s.createdAt).toDateString() %></span>
+                    </span>
+                <div class="description">
+                    <% s.results.forEach(function(res) { %>
+                        <p><%= res %></p>
+                    <% }); %>
                 </div>
             </div>
         </div>
-        <div class="twelve wide column">
-            <h3 class="ui header">Favorite Activities</h3>
-            <div class="ui segment">Surfing</div>
-            <div class="ui segment">Running</div>
-            <div class="ui segment">Tennis</div>
-        </div>
-        <div class="sixteen wide column">
-            <div class="ui statistics">
-              <div class="statistic">
-                <div class="value">
-                  <i class="write square icon"></i> 0
-                </div>
-                <div class="label">
-                  Reviews
-                </div>
-              </div>
-              <div class="statistic">
-                <div class="value">
-                  <i class="star icon"></i> 0
-                </div>
-                <div class="label">
-                  Ratings
-                </div>
-              </div>
-              <div class="statistic">
-                <div class="value">
-                  <i class="search icon"></i> 0
-                </div>
-                <div class="label">
-                  Searches
-                </div>
-              </div>
-            </div>
-        </div>
+        <% }); %>
     </div>
+    <% } %>
+</div>
 <% include partials/footer %>
 <% include ../partials/footer  %>

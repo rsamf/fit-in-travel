@@ -4,7 +4,7 @@ var User = require('../models/user')
 var globals = require('../globals');
 
 router.get('/', function(req, res) {
-    getMe(res);
+    res.render('account');
 });
 
 router.get('/reviews', function(req, res){
@@ -21,7 +21,7 @@ router.get('/settings', function(req, res){
 
 router.get('/:id', function(req, res){
     if(req.params.id === 'me') {
-        getMe(req, res);
+        res.render('account');
     } else {
         User.findById(req.params.id, function(err, user){
             globals.onError(res, err);

@@ -15,10 +15,10 @@ router.get('/location', function(req, res, next){
             $near : {
                 $geometry : {
                     type : 'Point',
-                    coordinates : [req.query.lng, req.query.lat]
-                }
-            },
-            maxDistance : 10000
+                    coordinates : [5, 5]
+                },
+                $maxDistance : 10000
+            }
         }
     };
     Place.find(location).exec(function(err, places){

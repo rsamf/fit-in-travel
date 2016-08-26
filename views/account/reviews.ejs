@@ -1,55 +1,32 @@
 <% include ../partials/header  %>
 <% include partials/header %>
 
-    <div class="sixteen wide column">
-        <h2 class="ui header">Reviews</h2>
-        <div class="ui items">
-            <div class="ui divider"></div>
-            <div class="item">
-                <div class="ui tiny image">
-                    <img src="/images/image.png">
-                </div>
-                <div class="content">
-                    <div class="header">LA Fitness</div>
-                    <div class="meta">
-                        <span class="date">1 Month ago</span>
-                    </div>
-                    <div class="description">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-                    </div>
-                </div>
+<div class="sixteen wide column">
+    <h2 class="ui header">Reviews</h2>
+    <div class="ui divider"></div>
+    <% if (currentUser.reviews.length === 0) { %>
+        <h2 class="ui header center aligned">No reviews yet.</h2>
+    <% } else { %>
+    <div class="ui divided items">
+        <% currentUser.reviews.forEach(function(review){ %>
+        <div class="item">
+            <div class="ui tiny image">
+                <img src="/images/image.png">
             </div>
-            <div class="ui divider"></div>
-            <div class="item">
-                <div class="ui tiny image">
-                    <img src="/images/image.png">
-                </div>
-                <div class="content">
-                    <div class="header">LA Fitness</div>
-                    <div class="meta">
-                        <span class="date">1 Month ago</span>
-                    </div>
-                    <div class="description">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="ui divider"></div>
-            <div class="item">
-                <div class="ui tiny image">
-                    <img src="/images/image.png">
-                </div>
-                <div class="content">
-                    <div class="header">LA Fitness</div>
-                    <div class="meta">
-                        <span class="date">1 Month ago</span>
-                    </div>
-                    <div class="description">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-                    </div>
+            <div class="content">
+                <div class="header"><%= review.place.name %></div>
+                <span class="meta">
+                    <span class="date"><%= new Date(review.createdAt).toDateString() %></span>
+                </span>
+                <div class="description">
+                    <h4><%= review.title %></h4>
+                    <p><%= review.content %></p>
                 </div>
             </div>
         </div>
+        <% }); %>
     </div>
+    <% } %>
+</div>
 <% include partials/footer %>
 <% include ../partials/footer  %>
