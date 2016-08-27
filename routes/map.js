@@ -3,12 +3,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.send('Oops! Put in the id of the search query please.');
+  res.render('map');
 });
 
 router.get('/:id', function(req, res, next){
-	
-	//fetch from search history from firebase
+  res.send('todo')
+
 });
 
 

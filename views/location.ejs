@@ -1,115 +1,154 @@
 <% include partials/header  %>
-<div class="extra-nav-adjust">
-  <div class="ui container">
-<!--     <iframe
-      width="100%"
-      height="750px"
-      frameborder="0" style="border:0"
-      src="https://www.google.com/maps/embed/v1/search?key=AIzaSyA9jr8SZ6wWV461F94ayBntzyrfRu5-cXw&q=fitness+near+me"
-      allowfullscreen>
-    </iframe>
- -->
-
-     <div class="ui segment">
-      <div class="ui two column centered stackable grid">
-        <div class="three wide column">        
-          <iframe
-            width="100%"
-            height="100%"
-            frameborder="0" style="border:0"
-            src="https://www.google.com/maps/embed/v1/search?key=AIzaSyA9jr8SZ6wWV461F94ayBntzyrfRu5-cXw&q=fitness+near+me"
-            allowfullscreen>
-          </iframe>
-        </div>
-        <div class="thirteen wide column" style = "width : 100%; height : 100%;">
-          <h2 class="ui header">Top Review</h2>
-          <div class="ui items">
-            <div class="item">
-              <div class="ui tiny image">
-                <img src="/images/image.png">
-              </div>
-              <div class="content">
-                <div class="header">Sammy Franklin</div>
-                <div class="meta">
-                  Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>
-                  <span class="date">1 Month ago</span>
+<div id="new" class="ui modal">
+    <div class="content">
+        <div class="ui container">
+            <form action="/places" method="POST" class="ui container">
+                <div class="field">
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Name">
                 </div>
-                <div class="description">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
+                <div class="field">
+                    <label>Type</label>
+                    <input type="text" name="type" placeholder="Type (e.g. surfing, running/hiking trail, etc...)">
                 </div>
-              </div>
-            </div>
-          </div>
+                <div class="field">
+                    <label>Description</label>
+                    <input type="text" name="description" placeholder="Description">
+                </div>
+                <div class="field">
+                    <label>Address</label>
+                    <input type="text" name="address" placeholder="Address">
+                </div>
+                <button class="ui button" type="submit">Submit</button>
+            </form>
         </div>
-      </div>
     </div>
-    <h2 class="ui header">Reviews</h2>
-    <div class="ui items">
-      <div class="ui divider"></div>
-      <div class="item">
-        <div class="ui tiny image">
-          <img src="/images/image.png">
-        </div>
-        <div class="content">
-          <div class="header">Sammy Franklin</div>
-          <div class="meta">
-            Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>
-            <span class="date">1 Month ago</span>
-          </div>
-          <div class="description">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-          </div>
-        </div>
-      </div>
-      <div class="ui divider"></div>
-      <div class="item">
-        <div class="ui tiny image">
-          <img src="/images/image.png">
-        </div>
-        <div class="content">
-          <div class="header">Sammy Franklin</div>
-          <div class="meta">
-            Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>
-            <span class="date">1 Month ago</span>
-          </div>
-          <div class="description">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-          </div>
-        </div>
-      </div>
-      <div class="ui divider"></div>
-      <div class="item">
-        <div class="ui tiny image">
-          <img src="/images/image.png">
-        </div>
-        <div class="content">
-          <div class="header">Sammy Franklin</div>
-          <div class="meta">
-            Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>
-            <span class="date">1 Month ago</span>
-          </div>
-          <div class="description">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-          </div>
-        </div>
-      </div>
-      <div class="ui divider"></div>
-      <div class="item">
-        <div class="ui tiny image">
-          <img src="/images/image.png">
-        </div>
-        <div class="content">
-          <div class="header">Sammy Franklin</div>
-          <div class="meta">
-            Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>
-            <span class="date">1 Month ago</span>
-          </div>
-          <div class="description">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>
-          </div>
-        </div>
-      </div>
-  </div>
 </div>
+<div id="review" class="ui long modal">
+    <div class="content">
+        <div class="ui container">
+            <!--<div class="ui segment">-->
+                <!--<div class="ui two column centered stackable grid">-->
+                    <!--<div class="three wide column">-->
+                        <!--<img src="" alt="" class="ui image">-->
+                    <!--</div>-->
+                    <!--<div class="thirteen wide column" style = "width : 100%; height : 100%;">-->
+                        <!--<h2 class="ui header">Top Review</h2>-->
+                        <!--<div class="item">-->
+                            <!--<div class="ui tiny image review">-->
+                                <!--<img src="/images/image.png">-->
+                            <!--</div>-->
+                            <!--<div class="content">-->
+                                <!--<div class="header">Sammy Franklin</div>-->
+                                <!--<div class="meta">-->
+                                    <!--Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>-->
+                                    <!--<span class="date">1 Month ago</span>-->
+                                <!--</div>-->
+                                <!--<div class="description">-->
+                                    <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <h2 class="ui header">Reviews</h2>
+            <div class="ui divider"></div>
+            <form action="/" class="ui form">
 
+            </form>
+            <div class="ui divided items">
+                <span id="review-list"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="extra-nav-adjust">
+    <div class="ui container">
+        <div class="ui segment" id="page-setter">
+
+            <span id="detail-display">
+            </span>
+            <div class="ui right close rail">
+                <div class="ui segment">
+                    <p>
+                        Want to share a unique fitness location that's not on this map?
+                    </p>
+                    <button class="ui basic button" onclick="showAddForm()">Add it here</button>
+                </div>
+            </div>
+            <div class="ui map-display">
+                <div class="ui inverted dimmer">
+                    <div class="ui text loader">Loading</div>
+                </div>
+                <iframe class="map-frame" src="/map" frameborder="0"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var currentDetails = {};
+    function showAddForm(){
+        if(currentUser){
+            window.location.assign('/auth/login');
+        } else {
+            $('#new.ui.modal').modal('show');
+        }
+    }
+    function setRailHtmlTo(html){
+        document.getElementById('detail-display').innerHTML = html;
+    }
+    function showIsLoading(active){
+        //console.log(document.getElementsByClassName('dimmer'));
+        if(active)
+            document.getElementsByClassName('dimmer')[0].classList.add('active');
+        else
+            document.getElementsByClassName('dimmer')[0].classList.remove('active');
+    }
+    function resetSemantic(){
+        $('.ui.rating').rating('disable');
+    }
+
+    function showReviewModal(){
+        console.log('from parent');
+        console.log(currentDetails);
+        var reviewList = document.getElementById('review-list');
+        var str = '';
+        currentDetails.reviews.forEach(function(review){
+            str +=
+                '<div class="item">'+
+                    '<div class="content">'+
+                        '<a href="'+review.author_url+'" class="ui header"><img src="'+review.profile_photo_url+'" alt="" class="ui avatar image"><span>'+review.author_name+'</span></a>'+
+                        '<div class="meta">'+
+                            '<span data-rating="'+Math.round(review.rating)+'" data-max-rating="5" class="ui star rating"></span> '+
+                            '<span class="date">'+ new Date(review.time).toDateString() +'</span>'+
+                        '</div>'+
+                        '<div class="description">'+
+                            '<p>'+review.text+'</p>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'
+        });
+        reviewList.innerHTML = str;
+        resetSemantic();
+        $('#review.ui.modal').modal('show');
+
+    }
+//    //map is true, reviews is false
+//    function setPageTo(page, place){
+//        var pageSetter = document.getElementById('page-setter');
+//        if(page) {
+//            pageSetter.innerHTML =
+//                '<span id="detail-display"></span>'+
+//                '<div class="ui map-display">'+
+//                    '<div class="ui inverted dimmer">'+
+//                        '<div class="ui text loader">Loading</div>'+
+//                    '</div>'+
+//                    '<iframe class="map-frame" src="/map" frameborder="0"></iframe>'+
+//                '</div>'
+//            ;
+//        }
+//    }
+</script>
 <% include partials/footer %>

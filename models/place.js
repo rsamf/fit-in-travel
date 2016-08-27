@@ -18,9 +18,14 @@ var placeSchema = new mongoose.Schema({
     reviews : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : 'review'
-    }]
+    }],
+    placeId : String
 }, {
-    timeStamps : true
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    },
+
 });
 
 module.exports = mongoose.model('place', placeSchema);

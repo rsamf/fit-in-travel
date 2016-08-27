@@ -9,11 +9,19 @@
 .extra-nav-adjust {
 	margin-top: 88px;
 }
+.account.nav-adjust {
+	margin-top : 88px;
+}
 .banner {
 	background-image: url('https://images.unsplash.com/photo-1427384906349-30452365b5e8?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&s=089e7c0fe7545b446375b8ddf3e54728');
 	background-size: cover;
 	width : 100%;
 	height : 600px;
+}
+
+iframe.map-frame {
+    width : 100%;
+    height : 800px;
 }
 
 .banner .content {
@@ -42,10 +50,6 @@
 .banner .pwred-google {
 	position: relative;
 	top : 50px;
-/*	font-size: 12px;
-	background-color: white;
-	text-shadow : none;
-	color: #3B5998;*/
 }
 
 

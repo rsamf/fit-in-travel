@@ -2,16 +2,16 @@
 <html>
   <head>
     <title>Fit in Travel</title>
-    <meta charset = "utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css" type = "text/css">
-    <link rel='stylesheet' href='/stylesheets/style.css' type = "text/css">
+	<meta charset="utf-8">
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css" type = "text/css">
+  	<link rel='stylesheet' href='/stylesheets/style.css' type = "text/css">
   </head>
   <body>
   	<div class="ui top menu fixed">
 	  <a class="item index" href = "/">
 	  	Fit in Travel
 	  </a>
-	  <a class="item feed" href = "/feed" >
+	  <a class="item feed" href = "/news" >
 <!-- 	    <i class="newspaper icon"></i>
  -->	    The Latest
 	  </a>
@@ -27,12 +27,15 @@
 	  	<div class="results"></div>
 	  </div>
 	  <div class="ui right menu">
-		  <a href = "/account" class="item">
-		  	Login
-		  </a>
-		  <a class="item">
-		  	Sign up
-		  </a>
+		  <% if(currentUser) { %>
+			  <a href = "/users" class="item">
+				  <%= currentUser.google.displayName %>
+			  </a>
+		  <% } else { %>
+			  <a href = "/auth/login" class="item">
+				Login with Google
+			  </a>
+		  <% } %>
 	  </div>
 	</div>
 	<div class="nav-adjust">

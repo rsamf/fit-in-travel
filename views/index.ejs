@@ -1,8 +1,12 @@
 <% include partials/header %>
   	<div class="banner">
-  		<div class="provider-hint wrap">	
-			<a class="ui label provider-hint">
-				<i class = "facebook icon"></i> Facebook
+  		<div class="provider-hint wrap">
+			<% if (currentUser) { %>
+				<a href="#" class="ui label provider-hint">
+			<% } else { %>
+				<a href="#" class="ui label provider-hint">
+			<% } %>
+				<i class = "google icon"></i> Google
 			</a>
   		</div>
 <!--   		<div class="provider-hint wrap">
