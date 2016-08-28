@@ -5,7 +5,7 @@
 					<div class="four wide column">
 						<div class="ui card">
 							<div class="small image">
-								<img src="<%= currentUser.google.image.url%>" alt="">
+								<img src="<%= currentUser.google.image.url.replace('?sz=50', '')%>" alt="">
 							</div>
 							<div class="content">
 							    <a class="header"><%= currentUser.google.displayName %></a>

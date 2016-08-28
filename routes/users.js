@@ -8,15 +8,28 @@ router.get('/', function(req, res) {
 });
 
 router.get('/reviews', function(req, res){
-    res.render('account/reviews');
+    User.findById(req.user._id).populate('reviews').exec(function(err, user){
+        globals.onError(res, err);
+        res.render('account/reviews', {currentUser:user});
+    });
 });
 
-router.get('/history', function(req, res){
-    res.render('account/history');
+router.get('/favorites', function(req, res){
+    User.findById(req.user._id).populate('favPlaces').exec(function(err, user){
+        globals.onError(res, err);
+        res.render('account/favorites', {currentUser:user});
+    });
 });
 
 router.get('/settings', function(req, res){
     res.render('account/settings');
+});
+
+router.get('/blogs', function(req, res){
+    User.findById(req.user._id).populate('blogs').exec(function(err, user) {
+        globals.onError(res, err);
+        res.render('account/blogs', {currentUser: user});
+    });
 });
 
 router.get('/:id', function(req, res){
@@ -48,11 +61,7 @@ router.delete('/:id', function(req, res){
     User.findByIdAndRemove(req.params.id, function(err){
         globals.onError(res, err);
         res.send('Deleted user ' + req.params.id);
-    })
+    });
 });
-
-function getMe(res) {
-    res.render('account');
-}
 
 module.exports = router;

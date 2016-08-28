@@ -8,9 +8,14 @@
                 <a href = "/users/reviews" class="item">
                     Reviews
                 </a>
-                <a href = "/users/history" class="item">
-                    Search History
+                <a href = "/users/favorites" class="item">
+                    Favorited Places
                 </a>
+                <% if(currentUser.blogger) { %>
+                    <a href="/users/blogs" class="item">
+                        Blogs
+                    </a>
+                <% } %>
                 <a href = "/users/settings" class="item">
                     Account Settings
                 </a>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Image = require('../models/image');
 const Place = require('../models/place');
+const Blog = require('../models/blog');
 const globals = require('../globals');
 
 /* GET home page. */
@@ -10,25 +11,32 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/location', function(req, res, next){
-    var location = {
-        location : {
-            $near : {
-                $geometry : {
-                    type : 'Point',
-                    coordinates : [5, 5]
-                },
-                $maxDistance : 10000
+    if(req.query.lng && req.query.lat) {
+        var location = {
+            location : {
+                $near : {
+                    $geometry : {
+                        type : 'Point',
+                        coordinates : [req.query.lng, req.query.lat]
+                    },
+                    $maxDistance : 10000
+                }
             }
-        }
-    };
-    Place.find(location).exec(function(err, places){
-        globals.onError(res, err);
-        res.render('location',{places: places});
-    })
+        };
+        Place.find(location).exec(function(err, places){
+            globals.onError(res, err);
+            console.log(places);
+            res.render('location',{places: places});
+        });
+    } else {
+        res.render('location');
+    }
 });
 
 router.get('/news', function(req, res){
-    res.render('newsfeed');
+    Blog.find({}, function (err, blogs) {
+        res.render('newsfeed', blogs);
+    });
 });
 
 router.get('/images/:id', function(req, res){
@@ -39,8 +47,5 @@ router.get('/images/:id', function(req, res){
     });
 });
 
-router.get('/test', function(req, res){
-    res.render('test-map');
-});
 
 module.exports = router;

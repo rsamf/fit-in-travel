@@ -1,0 +1,30 @@
+<% include ../partials/header  %>
+<% include partials/header %>
+<div class="sixteen wide column">
+    <h2 class="ui header">Blogs</h2>
+    <div class="ui divider"></div>
+    <% if (currentUser.blogs.length === 0) { %>
+    <h2 class="ui header center aligned"> You haven't written any blogs yet.</h2>
+    <% } else { %>
+    <div class="ui divided items">
+        <% currentUser.blogs.forEach(function(b){ %>
+        <div class="item">
+            <div class="ui tiny image">
+                <img src="/images/image.png">
+            </div>
+            <div class="content">
+                <div class="header"><%= b.title %></div>
+                <span class="meta">
+                        <span class="date"><%= new Date(b.createdAt).toDateString() %></span>
+                    </span>
+                <div class="description">
+                    <p><%= b.content %></p>
+                </div>
+            </div>
+        </div>
+        <% }); %>
+    </div>
+    <% } %>
+</div>
+<% include partials/footer %>
+<% include ../partials/footer  %>

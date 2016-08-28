@@ -29,7 +29,7 @@
 	  <div class="ui right menu">
 		  <% if(currentUser) { %>
 			  <a href = "/users" class="item">
-				  <%= currentUser.google.displayName %>
+                  <img src="<%=currentUser.google.image.url%>" alt="" class="ui avatar image"><span><%=currentUser.google.displayName%></span>
 			  </a>
 		  <% } else { %>
 			  <a href = "/auth/login" class="item">

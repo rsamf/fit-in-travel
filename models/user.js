@@ -8,10 +8,9 @@ var userSchema = new mongoose.Schema({
         ref : 'review'
     }],
     favActivities : [String],
-    searches : [{
-        query : String,
-        results : [Object],
-        createdAt : Number
+    favPlaces : [{
+        id : mongoose.Schema.Types.ObjectId,
+        ref : 'place'
     }],
     blogger : {
         type : Boolean,

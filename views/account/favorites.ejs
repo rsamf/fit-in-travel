@@ -1,26 +1,24 @@
 <% include ../partials/header  %>
 <% include partials/header %>
 <div class="sixteen wide column">
-    <h2 class="ui header">Searches</h2>
+    <h2 class="ui header">Favorite Places</h2>
     <div class="ui divider"></div>
-    <% if (currentUser.searches.length === 0) { %>
-    <h2 class="ui header center aligned">Empty results</h2>
+    <% if (currentUser.favPlaces.length === 0) { %>
+    <h2 class="ui header center aligned"> You haven't favorited anything yet.</h2>
     <% } else { %>
     <div class="ui divided items">
-        <% currentUser.searches.forEach(function(s){ %>
+        <% currentUser.favPlaces.forEach(function(p){ %>
         <div class="item">
             <div class="ui tiny image">
                 <img src="/images/image.png">
             </div>
             <div class="content">
-                <div class="header"><%= s.query %></div>
+                <div class="header"><%= p.name %></div>
                 <span class="meta">
-                        <span class="date"><%= new Date(s.createdAt).toDateString() %></span>
+                        <span class="date"><%= new Date(p.createdAt).toDateString() %></span>
                     </span>
                 <div class="description">
-                    <% s.results.forEach(function(res) { %>
-                        <p><%= res %></p>
-                    <% }); %>
+                        <p><%= p.description %></p>
                 </div>
             </div>
         </div>
