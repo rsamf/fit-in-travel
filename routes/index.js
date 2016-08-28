@@ -3,6 +3,7 @@ const router = express.Router();
 const Image = require('../models/image');
 const Place = require('../models/place');
 const Blog = require('../models/blog');
+const Review = require('../models/review');
 const globals = require('../globals');
 
 /* GET home page. */
@@ -33,9 +34,17 @@ router.get('/location', function(req, res, next){
     }
 });
 
+router.get('/review', function(req, res){
+    Review.find({}, function (err, reviews) {
+        globals.onError(res, err);
+        res.render('review', reviews);
+    });
+});
+
 router.get('/news', function(req, res){
     Blog.find({}, function (err, blogs) {
-        res.render('newsfeed', blogs);
+        globals.onError(res, err);
+        res.render('news', blogs);
     });
 });
 

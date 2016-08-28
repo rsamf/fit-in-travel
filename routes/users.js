@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user')
-var globals = require('../globals');
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+const Place = require('../models/place');
+const globals = require('../globals');
 
 router.get('/', function(req, res) {
     res.render('account');
@@ -48,6 +49,47 @@ router.put('/', function(req, res) {
         globals.onError(res, err);
         res.json(user);
     });
+});
+
+router.put('/fav', globals.isLoggedIn, function(req, res) {
+    console.log(req.body);
+    if(req.body.fromG) {
+        console.log('from G');
+        Place.findOne({placeId : req.body.placeId}, function(err, place){
+            globals.onError(res, err);
+            if(place) {
+                User.findById(req.user._id, function(err, user){
+                    globals.onError(res, err);
+                    user.favPlaces.push(place);
+                    user.save();
+                });
+                res.json(place);
+            } else {
+                Place.create({
+                    placeId : req.body.place_id,
+                    location : {
+                        coordinates : [req.body.lng, req.body.lat]
+                    }
+                }, function(err, place){
+                    globals.onError(res, err);
+                    User.findById(req.user._id, function(err, user){
+                        globals.onError(res, err);
+                        user.favPlaces.push(place);
+                        user.save();
+                    });
+                    res.json(place);
+                });
+            }
+        });
+    } else {
+        console.log('not from G');
+        User.findById(req.body.placeId, function(err, user){
+            globals.onError(res, err);
+            user.favPlaces.push(req.body.placeId);
+            user.save();
+            res.json(req.body.placeId);
+        });
+    }
 });
 
 router.put('/:id', function(req, res){

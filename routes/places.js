@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Place = require('../models/place');
-var Review = requier('../models/review');
+var Review = require('../models/review');
 var globals = require('../globals');
 
 router.get('/', function(req, res){

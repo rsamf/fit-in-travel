@@ -24,8 +24,10 @@ var placeSchema = new mongoose.Schema({
     timestamps: {
         createdAt: 'createdAt',
         updatedAt: 'updatedAt'
-    },
+    }
 
 });
+
+placeSchema.index({location:'2dsphere'});
 
 module.exports = mongoose.model('place', placeSchema);

@@ -7,6 +7,7 @@ var map,
     currentPlace,
     currentDetails,
     places = [],
+    fitPlaces = [],
     requests = [],
     enabledTypes = [true, true, false];
 const maxRadius = '10000',
@@ -33,31 +34,50 @@ function initMap() {
         myInfoWindow.open(map, this);
         currentInfoWindow = this.infoWindow;
     });
-
+    //request from fit db
+    if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+        httpRequest = new XMLHttpRequest();
+    } else if (window.ActiveXObject) { // IE 6 and older
+        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    httpRequest.onreadystatechange = function(){
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            var results = JSON.parse(httpRequest.responseText);
+            placeDown(results, fitPlaces, true);
+            for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
+                service.nearbySearch(requests[reqIndex], function(results, status){
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        placeDown(results, places);
+                    } else {
+                        console.error('Status not ok \n' + status);
+                    }
+                });
+            }
+        } else {
+            console.error('not ready')
+        }
+    };
+    httpRequest.open('GET', '/places', true);
+    httpRequest.send('?lng='+myCoords.lng+'&lat='+myCoords.lat);
     //Set up targets in surrounding origin
     getRequests();
     service = new google.maps.places.PlacesService(map);
-    for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
-        service.nearbySearch(requests[reqIndex], function(results, status){
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-                placeDown(results, places);
-            } else {
-                console.error('Status not ok \n' + status);
-            }
-        });
-    }
 
 
 }
 
-function placeDown(obj, cache){
-    if(obj.length) {
+function placeDown(obj, cache, ifFromFit){
+    if(ifFromFit){
         for (var i = 0; i < obj.length; i++) {
             var point = new google.maps.Marker({
-                position : obj[i].geometry.location,
+                position : {
+                    lng : obj[i].location.coordinates[0],
+                    lat : obj[i].location.coordinates[1]
+                },
                 map : map,
                 animation : google.maps.Animation.DROP,
-                title : obj[i].name
+                title : obj[i].name,
+                label : 'F'
             });
             point.infoWindow = new google.maps.InfoWindow({
                 content : getPlaceDom(obj[i])
@@ -74,25 +94,58 @@ function placeDown(obj, cache){
             }
         }
     } else {
-        var point = new google.maps.Marker({
-            position : obj.geometry.location,
-            map : map,
-            animation : google.maps.Animation.DROP,
-            title : obj.name
-        });
-        point.infoWindow = new google.maps.InfoWindow({
-            content : getPlaceDom(obj)
-        });
-        point.place_id = obj.place_id;
-        if(cache) {
-            point.addListener('click', function(){
-                currentPlace = this.place_id;
-                if(currentInfoWindow) currentInfoWindow.close();
-                this.infoWindow.open(map, this);
-                currentInfoWindow = this.infoWindow;
+        if(obj.length) {
+            for (var i = 0; i < obj.length; i++) {
+                if(ifInArray(obj, cache));
+                var point = new google.maps.Marker({
+                    position : obj[i].geometry.location,
+                    map : map,
+                    animation : google.maps.Animation.DROP,
+                    title : obj[i].name
+                });
+                point.infoWindow = new google.maps.InfoWindow({
+                    content : getPlaceDom(obj[i])
+                });
+                point.place_id = obj[i].place_id;
+                if(cache) {
+                    point.addListener('click', function(){
+                        currentPlace = this.place_id;
+                        if(currentInfoWindow) currentInfoWindow.close();
+                        this.infoWindow.open(map, this);
+                        currentInfoWindow = this.infoWindow;
+                    });
+                    cache.push(point);
+                }
+            }
+        } else {
+            if(ifInArray(obj, cache));
+            var point = new google.maps.Marker({
+                position : obj.geometry.location,
+                map : map,
+                animation : google.maps.Animation.DROP,
+                title : obj.name
             });
-            cache.push(point);
+            point.infoWindow = new google.maps.InfoWindow({
+                content : getPlaceDom(obj)
+            });
+            point.place_id = obj.place_id;
+            if(cache) {
+                point.addListener('click', function(){
+                    currentPlace = this.place_id;
+                    if(currentInfoWindow) currentInfoWindow.close();
+                    this.infoWindow.open(map, this);
+                    currentInfoWindow = this.infoWindow;
+                });
+                cache.push(point);
+            }
         }
+    }
+    function ifInArray(obj, array) {
+        for(var i = 0; i < array.length; i++) {
+            if(obj.place_id == array[i].placeId)
+                return true;
+        }
+        return false;
     }
 }
 
@@ -127,7 +180,7 @@ function getPlaceDom(place){
             '</div>'+
             '<div class="item">'+
                 '<i class="marker icon"></i>'+
-                '<div class="content">'+place.vicinity+'</div>'+
+                '<div class="content">'+place.vicinity ? place.vicinity : place.address+'</div>'+
             '</div>'+
             (
                 isOpen !== undefined ?
@@ -153,7 +206,6 @@ function display(){
                 var html =
                     '<div class="ui left attached internal rail">'+
                         '<div style="width:100%;height:100%" class="ui segment">'+
-                            '<button title="Helps to review later" class="basic ui pull-right button"><i class="star icon yellow"></i> Add as favorite</button>'+
                             '<div class="ui dividing header">'+place.name+'</div>' +
                             (
                                 place.photos && place.photos[0] ?
@@ -186,7 +238,8 @@ function display(){
                                     getOpeningHours(place)+
                                 '</div>'+
                             '</div>'+
-                            '<a href="#reviews" onclick="showReviewModal()"">View reviews</a>'+
+                            '<a href="javascript:void(0);" onclick="showReviewModal()"">View reviews</a>'+
+                            '<a href="javascript:void(0);" onclick="addAsFav()" title="Helps to review later" class="pull-right"> Add as favorite</a>'+
                         '</div>'+
                     '</div>'
                 ;

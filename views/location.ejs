@@ -115,25 +115,52 @@
         console.log(currentDetails);
         var reviewList = document.getElementById('review-list');
         var str = '';
-        currentDetails.reviews.forEach(function(review){
+        if(currentDetails.reviews && currentDetails.reviews.length > 0) {
+            currentDetails.reviews.forEach(function(review){
+                str +=
+                    '<div class="item">'+
+                        '<div class="content">'+
+                            '<a href="'+review.author_url+'" class="ui header">'+
+                                (review.profile_photo_url ? '<img src="'+review.profile_photo_url+'" alt="" class="ui avatar image">' : '')+'<span>'+review.author_name+'</span>' +
+                            '</a>'+
+                            '<div class="meta">'+
+                                '<span title="'+review.rating+' stars" data-rating="'+Math.round(review.rating)+'" data-max-rating="5" class="ui star rating"></span> '+
+                                '<span class="date">'+ new Date(review.time).toDateString() +'</span>'+
+                            '</div>'+
+                            '<div class="description">'+
+                                '<p>'+review.text+'</p>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'
+            });
+        } else {
             str +=
-                '<div class="item">'+
-                    '<div class="content">'+
-                        '<a href="'+review.author_url+'" class="ui header"><img src="'+review.profile_photo_url+'" alt="" class="ui avatar image"><span>'+review.author_name+'</span></a>'+
-                        '<div class="meta">'+
-                            '<span data-rating="'+Math.round(review.rating)+'" data-max-rating="5" class="ui star rating"></span> '+
-                            '<span class="date">'+ new Date(review.time).toDateString() +'</span>'+
-                        '</div>'+
-                        '<div class="description">'+
-                            '<p>'+review.text+'</p>'+
-                        '</div>'+
-                    '</div>'+
-                '</div>'
-        });
+                '<h2 class="ui header">No reviews yet.</h2>'
+            ;
+        }
         reviewList.innerHTML = str;
         resetSemantic();
         $('#review.ui.modal').modal('show');
+    }
 
+    function addAsFav(){
+        $.ajax({
+            method : 'PUT',
+            url : '/users/fav',
+            timeout : 5000,
+            data : {
+                placeId : currentDetails.place_id,
+                fromG : true,
+                lng : currentDetails.geometry.location.lng(),
+                lat : currentDetails.geometry.location.lat()
+            },
+            success : function(data) {
+                console.log(data);
+            },
+            failure : function(){
+                console.error("failed to favorite " + data);
+            }
+        });
     }
 //    //map is true, reviews is false
 //    function setPageTo(page, place){

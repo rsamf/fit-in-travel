@@ -9,7 +9,7 @@ var userSchema = new mongoose.Schema({
     }],
     favActivities : [String],
     favPlaces : [{
-        id : mongoose.Schema.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'place'
     }],
     blogger : {

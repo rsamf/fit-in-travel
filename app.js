@@ -69,7 +69,6 @@ passport.use(new GoogleStrategy({
         passReqToCallback: true
     },
     function(req, accessToken, refreshToken, profile, done){
-        console.log('hello');
         process.nextTick(function(){
             var globals = require('./globals');
             var User = require('./models/user');
