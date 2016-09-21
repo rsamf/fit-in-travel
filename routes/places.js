@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Place = require('../models/place');
 var globals = require('../globals');
-const middleware = require('../')
 
 router.get('/', function(req, res){
    Place.find({}, function(err, places){
