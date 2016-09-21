@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var Place = require('../models/place');
 var globals = require('../globals');
+const middleware = require('../')
 
 router.get('/', function(req, res){
    Place.find({}, function(err, places){
@@ -14,7 +15,7 @@ router.get('/add', function(req, res){
     res.render('places/add');
 });
 
-router.post('/', function(req, res) {
+router.post('/', globals.isLoggedIn, function(req, res) {
     Place.create({
         name : req.body.name,
         type : req.body.type,
@@ -25,7 +26,7 @@ router.post('/', function(req, res) {
         res.json(place);
     });
 });
-router.post('/:placeId', function(req, res){
+router.post('/:placeId', globals.isLoggedIn, function(req, res){
     Place.findOne({placeId : req.params.placeId}, function(err, place){
         globals.onError(res, err);
         var review = {
@@ -60,14 +61,14 @@ router.post('/:placeId', function(req, res){
     });
 });
 router.get('/map/:id', function(req, res){
-    Place.findOne({placeId:req.params.id}).populate('reviews').exec(function(){
+    Place.findOne({placeId:req.params.id}).exec(function(){
         globals.onError(res, err);
         res.json(place);
     });
 });
 
 router.get('/:id', function(req, res){
-    Place.findById(req.params.id).populate('reviews').exec(function(err, place){
+    Place.findById(req.params.id).exec(function(err, place){
         globals.onError(res, err);
         res.json(place);
     });
