@@ -7,8 +7,11 @@ const Review = require('../models/review');
 const globals = require('../globals');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('index');
+router.get('/', function(req, res) {
+    Place.findOne({}, function(err, place){
+        globals.onError(res, err);
+        res.render('index',{feature : null});
+    });
 });
 
 router.get('/location', function(req, res, next){
@@ -42,9 +45,9 @@ router.get('/review', function(req, res){
 });
 
 router.get('/news', function(req, res){
-    Blog.find({}, function (err, blogs) {
+    Blog.find({}).limit(10).populate('author').exec(function (err, blogs) {
         globals.onError(res, err);
-        res.render('news', blogs);
+        res.render('news', {blogs: blogs});
     });
 });
 

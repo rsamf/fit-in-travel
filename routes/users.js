@@ -5,7 +5,10 @@ const Place = require('../models/place');
 const globals = require('../globals');
 
 router.get('/', function(req, res) {
-    res.render('account');
+    User.findById(req.user._id, function(err, user){
+        globals.onError(res, err);
+        res.render('account', {currentUser:user});
+    });
 });
 
 router.get('/reviews', function(req, res){
@@ -42,13 +45,6 @@ router.get('/:id', function(req, res){
             res.render('account', {user : user});
         });
     }
-});
-
-router.put('/', function(req, res) {
-    User.findByIdAndUpdate(req.user._id, req.body.user, function(err, user){
-        globals.onError(res, err);
-        res.json(user);
-    });
 });
 
 router.put('/fav', globals.isLoggedIn, function(req, res) {
@@ -92,6 +88,7 @@ router.put('/fav', globals.isLoggedIn, function(req, res) {
     }
 });
 
+
 router.put('/:id', function(req, res){
     User.findByIdAndUpdate(req.params.id, req.body.user, function(err, user){
         globals.onError(res, err);
@@ -105,5 +102,34 @@ router.delete('/:id', function(req, res){
         res.send('Deleted user ' + req.params.id);
     });
 });
+
+
+router.put('/', function(req, res){
+    console.log(0);
+    console.log(req.body);
+    User.findById(req.user._id, function (err, user) {
+        globals.onError(res, err);
+        console.log(1);
+        if(req.query.favActivities == 'true') {
+            console.log(2);
+
+            if(req.body.method == 'add' && req.body.activity.length < 20){
+                user.favActivities.push(req.body.activity);
+            } else if(req.body.method == 'remove'){
+                console.log(3);
+
+                user.favActivities.splice(req.body.activity, 1);
+            }
+        }
+        console.log(4);
+
+        var newBio = req.body.bio;
+        if(newBio)
+            user.bio = newBio;
+        user.save();
+        res.json(user);
+    });
+});
+
 
 module.exports = router;

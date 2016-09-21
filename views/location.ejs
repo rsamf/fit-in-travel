@@ -27,37 +27,43 @@
 <div id="review" class="ui long modal">
     <div class="content">
         <div class="ui container">
-            <!--<div class="ui segment">-->
-                <!--<div class="ui two column centered stackable grid">-->
-                    <!--<div class="three wide column">-->
-                        <!--<img src="" alt="" class="ui image">-->
-                    <!--</div>-->
-                    <!--<div class="thirteen wide column" style = "width : 100%; height : 100%;">-->
-                        <!--<h2 class="ui header">Top Review</h2>-->
-                        <!--<div class="item">-->
-                            <!--<div class="ui tiny image review">-->
-                                <!--<img src="/images/image.png">-->
+            <div id="place-of-review"></div>
+            <div class="ui active segment accordion">
+                <h3 class = "ui active title header">
+                    <i class="dropdown icon"></i>
+                    Submit a review
+                </h3>
+                <div class="active content">
+                    <div class="ui divider"></div>
+                    <form id="review-form" method = "POST" class="ui form">
+                        <div class="field">
+                            <label for="rating">Rate it</label>
+                            <div class="ui star huge rating" data-rating="review.rating" name="rating" data-max-rating="5" required></div>
+                        </div>
+                        <div class="field">
+                            <label for="title">Title</label>
+                            <input type="text" name="title">
+                        </div>
+                        <div class="field">
+                            <textarea style = "resize:none;" name="content" placeholder = "Write a review"></textarea>
+                            <!--Button placement -->
+                            <!-- <div class="three wide column"></div>
+                            <div class="thirteen wide column">-->
+                            <p></p>
+                            <button onclick="submitReview()" type="button" class = "ui primary button">Post</button>
                             <!--</div>-->
-                            <!--<div class="content">-->
-                                <!--<div class="header">Sammy Franklin</div>-->
-                                <!--<div class="meta">-->
-                                    <!--Reviewed <a class="location" style = "font-weight:bolder; color : #1678C2" href = "#">LA Fitness</a>-->
-                                    <!--<span class="date">1 Month ago</span>-->
-                                <!--</div>-->
-                                <!--<div class="description">-->
-                                    <!--<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quasi! Quis quibusdam molestias officiis eaque aliquid, vitae quam corrupti, quidem ipsa vel optio accusantium dolorum ullam, nulla, voluptatibus atque aperiam!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa ad ducimus saepe? Dicta quas fuga dolor, accusamus, voluptatum ratione in dolore quaerat deserunt adipisci architecto molestias unde iusto vitae repellat!</p>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+                            <!-- -->
+                        </div>
+                    </form>
+                </div>
+            </div>
             <h2 class="ui header">Reviews</h2>
             <div class="ui divider"></div>
             <form action="/" class="ui form">
 
             </form>
             <div class="ui divided items">
+                <span id="review-list-byfit"></span>
                 <span id="review-list"></span>
             </div>
         </div>
@@ -72,9 +78,8 @@
             <div class="ui right close rail">
                 <div class="ui segment">
                     <p>
-                        Want to share a unique fitness location that's not on this map?
+                        map
                     </p>
-                    <button class="ui basic button" onclick="showAddForm()">Add it here</button>
                 </div>
             </div>
             <div class="ui map-display">
@@ -87,95 +92,8 @@
         </div>
     </div>
 </div>
+<script src="/javascripts/location.js"></script>
 <script>
-    var currentDetails = {};
-    function showAddForm(){
-        if(currentUser){
-            window.location.assign('/auth/login');
-        } else {
-            $('#new.ui.modal').modal('show');
-        }
-    }
-    function setRailHtmlTo(html){
-        document.getElementById('detail-display').innerHTML = html;
-    }
-    function showIsLoading(active){
-        //console.log(document.getElementsByClassName('dimmer'));
-        if(active)
-            document.getElementsByClassName('dimmer')[0].classList.add('active');
-        else
-            document.getElementsByClassName('dimmer')[0].classList.remove('active');
-    }
-    function resetSemantic(){
-        $('.ui.rating').rating('disable');
-    }
 
-    function showReviewModal(){
-        console.log('from parent');
-        console.log(currentDetails);
-        var reviewList = document.getElementById('review-list');
-        var str = '';
-        if(currentDetails.reviews && currentDetails.reviews.length > 0) {
-            currentDetails.reviews.forEach(function(review){
-                str +=
-                    '<div class="item">'+
-                        '<div class="content">'+
-                            '<a href="'+review.author_url+'" class="ui header">'+
-                                (review.profile_photo_url ? '<img src="'+review.profile_photo_url+'" alt="" class="ui avatar image">' : '')+'<span>'+review.author_name+'</span>' +
-                            '</a>'+
-                            '<div class="meta">'+
-                                '<span title="'+review.rating+' stars" data-rating="'+Math.round(review.rating)+'" data-max-rating="5" class="ui star rating"></span> '+
-                                '<span class="date">'+ new Date(review.time).toDateString() +'</span>'+
-                            '</div>'+
-                            '<div class="description">'+
-                                '<p>'+review.text+'</p>'+
-                            '</div>'+
-                        '</div>'+
-                    '</div>'
-            });
-        } else {
-            str +=
-                '<h2 class="ui header">No reviews yet.</h2>'
-            ;
-        }
-        reviewList.innerHTML = str;
-        resetSemantic();
-        $('#review.ui.modal').modal('show');
-    }
-
-    function addAsFav(){
-        $.ajax({
-            method : 'PUT',
-            url : '/users/fav',
-            timeout : 5000,
-            data : {
-                placeId : currentDetails.place_id,
-                fromG : true,
-                lng : currentDetails.geometry.location.lng(),
-                lat : currentDetails.geometry.location.lat()
-            },
-            success : function(data) {
-                console.log(data);
-            },
-            failure : function(){
-                console.error("failed to favorite " + data);
-            }
-        });
-    }
-//    //map is true, reviews is false
-//    function setPageTo(page, place){
-//        var pageSetter = document.getElementById('page-setter');
-//        if(page) {
-//            pageSetter.innerHTML =
-//                '<span id="detail-display"></span>'+
-//                '<div class="ui map-display">'+
-//                    '<div class="ui inverted dimmer">'+
-//                        '<div class="ui text loader">Loading</div>'+
-//                    '</div>'+
-//                    '<iframe class="map-frame" src="/map" frameborder="0"></iframe>'+
-//                '</div>'
-//            ;
-//        }
-//    }
 </script>
 <% include partials/footer %>

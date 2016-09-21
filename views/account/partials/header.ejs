@@ -2,21 +2,21 @@
     <div class="ui grid">
         <div class="four wide column">
             <div class="ui vertical fluid tabular menu">
-                <a href = "/users" class="active item">
+                <a href = "/users" id="menu-prof" class="item">
                     Profile
                 </a>
-                <a href = "/users/reviews" class="item">
+                <a href = "/users/reviews" id="menu-rev" class="item">
                     Reviews
                 </a>
-                <a href = "/users/favorites" class="item">
+                <a href = "/users/favorites" id="menu-fav" class="item">
                     Favorited Places
                 </a>
                 <% if(currentUser.blogger) { %>
-                    <a href="/users/blogs" class="item">
+                    <a href="/users/blogs" id="menu-blog" class="item">
                         Blogs
                     </a>
                 <% } %>
-                <a href = "/users/settings" class="item">
+                <a href = "/users/settings" id="menu-settings" class="item">
                     Account Settings
                 </a>
             </div>

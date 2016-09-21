@@ -13,7 +13,7 @@
 	  </a>
 	  <a class="item feed" href = "/news" >
 <!-- 	    <i class="newspaper icon"></i>
- -->	    The Latest
+ -->	    What's New
 	  </a>
 	  <a class="item location" href = "/location">
 <!-- 	    <i class="location arrow icon"></i>
@@ -30,6 +30,9 @@
 		  <% if(currentUser) { %>
 			  <a href = "/users" class="item">
                   <img src="<%=currentUser.google.image.url%>" alt="" class="ui avatar image"><span><%=currentUser.google.displayName%></span>
+			  </a>
+			  <a href = "/auth/logout" class="item">
+				  Logout
 			  </a>
 		  <% } else { %>
 			  <a href = "/auth/login" class="item">

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var Place = require('../models/place');
-var Review = require('../models/review');
 var globals = require('../globals');
 
 router.get('/', function(req, res){
@@ -19,7 +18,8 @@ router.post('/', function(req, res) {
     Place.create({
         name : req.body.name,
         type : req.body.type,
-        description : req.body.description
+        description : req.body.description,
+        reviews : req.body.review
     }, function(err, place){
         globals.onError(res, err);
         res.json(place);
@@ -28,31 +28,35 @@ router.post('/', function(req, res) {
 router.post('/:placeId', function(req, res){
     Place.findOne({placeId : req.params.placeId}, function(err, place){
         globals.onError(res, err);
-        Review.create({
-            title : req.body.title,
-            rating : req.body.rating,
+        var review = {
             content : req.body.content,
-            author : req.user,
-            place : place
-        }, function(err, review){
-            globals.onError(res, err);
-            if(!place) {
-                Place.create({
-                    placeId : req.params.placeId,
-                    reviews : [req.body.review]
-                }, function(err, place){
-                    globals.onError(res, err);
-                    review.place = place;
-                    res.json(place);
-                });
-            } else {
-                place.push(req.body.review);
-                review.place = place;
-                place.save();
-                review.save();
-                res.json(place);
+            rating : req.body.rating,
+            author : {
+                name : req.user.google.displayName,
+                image : req.user.google.image.url,
+                id : req.user._id
             }
-        });
+        };
+        if(!place) {
+            Place.create({
+                name : req.body.name,
+                types : req.body.types,
+                location : {
+                    type : 'Point',
+                    coordinates : [req.body.lng, req.body.lat]
+                },
+                placeId : req.params.placeId
+            }, function(err, place){
+                globals.onError(res, err);
+                place.reviews.push(review);
+                place.save();
+                res.json(place);
+            });
+        } else {
+            place.reviews.push(review);
+            place.save();
+            res.json(place);
+        }
     });
 });
 router.get('/map/:id', function(req, res){

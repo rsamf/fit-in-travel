@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="348c2f5c-9723-42e3-836e-61cb7e361103" name="FitInTravel" url="http://52.26.92.19">
-        <fileTransfer host="52.26.92.19" port="22" privateKey="C:\Users\Sam\Downloads\ts3-key.ppk" accessType="SFTP" keyPair="true">
+      <webServer id="348c2f5c-9723-42e3-836e-61cb7e361103" name="FitInTravel" url="http://54.69.58.183">
+        <fileTransfer host="54.69.58.183" port="22" privateKey="C:\Users\Sam\Downloads\ts3-key.ppk" accessType="SFTP" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
           </advancedOptions>

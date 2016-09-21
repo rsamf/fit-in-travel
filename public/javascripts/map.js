@@ -34,36 +34,34 @@ function initMap() {
         myInfoWindow.open(map, this);
         currentInfoWindow = this.infoWindow;
     });
+
+    //Set up targets in surrounding origin
+    getRequests();
+    service = new google.maps.places.PlacesService(map);
     //request from fit db
+    var request;
     if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
-        httpRequest = new XMLHttpRequest();
+        request = new XMLHttpRequest();
     } else if (window.ActiveXObject) { // IE 6 and older
-        httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+        request = new ActiveXObject("Microsoft.XMLHTTP");
     }
-    httpRequest.onreadystatechange = function(){
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            var results = JSON.parse(httpRequest.responseText);
-            placeDown(results, fitPlaces, true);
+    request.open('GET', '/places', true);
+    request.onreadystatechange = function() {
+        if (request.readyState === XMLHttpRequest.DONE) {
+            fitPlaces = JSON.parse(request.responseText);
             for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
-                service.nearbySearch(requests[reqIndex], function(results, status){
+                service.nearbySearch(requests[reqIndex], function(gPlace, status){
                     if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        placeDown(results, places);
+                        placeDown(gPlace, places, false);
+
                     } else {
                         console.error('Status not ok \n' + status);
                     }
                 });
             }
-        } else {
-            console.error('not ready')
         }
     };
-    httpRequest.open('GET', '/places', true);
-    httpRequest.send('?lng='+myCoords.lng+'&lat='+myCoords.lat);
-    //Set up targets in surrounding origin
-    getRequests();
-    service = new google.maps.places.PlacesService(map);
-
-
+    request.send('?lng=' + myCoords.lng + '&lat=' + myCoords.lat);
 }
 
 function placeDown(obj, cache, ifFromFit){
@@ -79,8 +77,9 @@ function placeDown(obj, cache, ifFromFit){
                 title : obj[i].name,
                 label : 'F'
             });
+            var dom = getPlaceDom(obj[i]);
             point.infoWindow = new google.maps.InfoWindow({
-                content : getPlaceDom(obj[i])
+                content : dom
             });
             point.place_id = obj[i].place_id;
             if(cache) {
@@ -96,15 +95,16 @@ function placeDown(obj, cache, ifFromFit){
     } else {
         if(obj.length) {
             for (var i = 0; i < obj.length; i++) {
-                if(ifInArray(obj, cache));
+                //if(ifInArray(obj, cache));
                 var point = new google.maps.Marker({
                     position : obj[i].geometry.location,
                     map : map,
                     animation : google.maps.Animation.DROP,
                     title : obj[i].name
                 });
+                var dom = getPlaceDom(obj[i]);
                 point.infoWindow = new google.maps.InfoWindow({
-                    content : getPlaceDom(obj[i])
+                    content : dom
                 });
                 point.place_id = obj[i].place_id;
                 if(cache) {
@@ -118,7 +118,7 @@ function placeDown(obj, cache, ifFromFit){
                 }
             }
         } else {
-            if(ifInArray(obj, cache));
+            //if(ifInArray(obj, cache));
             var point = new google.maps.Marker({
                 position : obj.geometry.location,
                 map : map,
@@ -149,6 +149,14 @@ function placeDown(obj, cache, ifFromFit){
     }
 }
 
+function getFitDetails(search){
+    for(var i = 0; i < fitPlaces.length; i++){
+        if(fitPlaces[i].placeId && fitPlaces[i].placeId == search){
+            return fitPlaces[i];
+        }
+    }
+    return null;
+}
 function getMyCoords(){
     myCoords = {
         lat: 34.2491550,
@@ -175,23 +183,23 @@ function getPlaceDom(place){
     }
     return (
         '<div class="ui list">'+
-            '<div class="item">'+
-                '<div class="content">'+place.name+'</div>'+
-            '</div>'+
-            '<div class="item">'+
-                '<i class="marker icon"></i>'+
-                '<div class="content">'+place.vicinity ? place.vicinity : place.address+'</div>'+
-            '</div>'+
-            (
-                isOpen !== undefined ?
-                    ('<div class="item">'+
-                        '<i class="wait icon"></i>'+
-                        '<div class="content">'+ isOpen +'</div>'+
-                    '</div>') : ''
-            ) +
-            '<div class="item">'+
-                '<div class="content"><button class="ui basic button blue" onclick="display()">More details</button></div>'+
-            '</div>'+
+        '<div class="item">'+
+        '<div class="content">'+place.name+'</div>'+
+        '</div>'+
+        '<div class="item">'+
+        '<i class="marker icon"></i>'+
+        '<div class="content">'+(place.vicinity ? place.vicinity : place.address)+'</div>'+
+        '</div>'+
+        (
+            isOpen !== undefined ?
+                ('<div class="item">'+
+                '<i class="wait icon"></i>'+
+                '<div class="content">'+ isOpen +'</div>'+
+                '</div>') : ''
+        ) +
+        '<div class="item">'+
+        '<div class="content"><button class="ui basic button blue" onclick="display()">More details</button></div>'+
+        '</div>'+
         '</div>'
     );
 }
@@ -199,10 +207,12 @@ function getPlaceDom(place){
 function display(){
     if(currentPlace){
         window.parent.showIsLoading(true);
+        var fit = getFitDetails(currentPlace);
         service.getDetails({placeId : currentPlace}, function(place, status) {
             if (status == google.maps.places.PlacesServiceStatus.OK) {
                 window.parent.showIsLoading(false);
                 currentDetails = place;
+                currentDetails.fit = fit;
                 var html =
                     '<div class="ui left attached internal rail">'+
                         '<div style="width:100%;height:100%" class="ui segment">'+
@@ -230,7 +240,7 @@ function display(){
                                             ('<div class="item">'+
                                                 '<i class="google icon" title="Rating by Google Places"></i>'+
                                                 '<div class="content">'+
-                                                    '<div class="ui star rating" data-rating="'+Math.round(place.rating)+'" data-max-rating="5"></div>'+
+                                                    '<div class="ui star readonly rating" data-rating="'+Math.round(place.rating)+'" data-max-rating="5"></div>'+
                                                 '</div>'+
                                             '</div>') : ''
                                     ) +
@@ -244,7 +254,6 @@ function display(){
                     '</div>'
                 ;
                 window.parent.currentDetails = currentDetails;
-                console.log(currentDetails);
                 window.parent.setRailHtmlTo(html);
                 window.parent.resetSemantic();
             }

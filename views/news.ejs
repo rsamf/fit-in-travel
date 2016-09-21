@@ -1,0 +1,20 @@
+<% include partials/header %>
+
+    <div class="extra-nav-adjust">
+        <div class="ui container">
+            <h2 class="header ui dividing">Fit in Travel</h2>
+            <% blogs.forEach(function(b){ %>
+            <div class="ui vertical segment">
+
+                <h3 class="ui header">
+                    blog.title
+                </h3>
+                Written by <img src="<%= blog.author.image.url %>" alt=""><span>blog.author.displayName</span>
+                <p>
+                    blog.content
+                </p>
+            </div>
+            <% }); %>
+        </div>
+    </div>
+<% include partials/footer %>

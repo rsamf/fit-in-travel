@@ -13,9 +13,9 @@
 							      <span class="date">Joined <%= new Date(currentUser.createdAt).toDateString() %></span>
 							    </div>
 							    <div class="description">
-							    	<form action="/users/<%=currentUser._id%>?_method=PUT" class="ui form" method = "POST">
-								    	<textarea style = "resize:none; height : 100px;"  name= "user[bio]" placeholder = "Enter custom bio here!"></textarea>
-								    	<button type="submit" class="ui blue basic button">Save</button>
+							    	<form class="ui form" id="bio-form">
+								    	<textarea style = "resize:none; height : 100px;" id="bio" name= "bio" placeholder = "Enter custom bio here!"><%=currentUser.bio%></textarea>
+								    	<button type="button" onclick="updateBio()" class="ui blue basic button">Save</button>
 							    	</form>
 							    </div>
 							</div>
@@ -29,15 +29,17 @@
 					</div>
 					<div class="twelve wide column">
 						<h2 class="ui header">Favorite Activities</h2>
-						<% currentUser.favActivities.forEach(function(f) { %>
-							<div class="ui segment">f</div>
-						<% }); %>
-						<form action="/users?_method=PUT" method="POST" class="ui form">
+						<div id="activities">
+							<% currentUser.favActivities.forEach(function(f, i) { %>
+								<div class="ui segment"><%= f %><span class="pull-right" onclick="removeActivity(<%=i%>)"><i class="icon remove"></i></span></div>
+							<% }); %>
+						</div>
+						<div class="ui divider"></div>
+						<form class="ui form" id="activity-form">
 							<div class="field">
-								<input type="text" name="activity">
+								<input type="text" id="activity-input" name="activity">
 							</div>
-							<button class="ui basic button blue"><i class="add icon"></i> Add</button>
-
+							<button class="ui basic button blue" onclick="updateActivity()" type="button"><i class="add icon"></i> Add</button>
 						</form>
 					</div>
 					<div class="sixteen wide column">

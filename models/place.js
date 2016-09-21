@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 var placeSchema = new mongoose.Schema({
     name : String,
-    type : String,
+    types : [String],
     location : {
         type : {
             type : String,
@@ -15,11 +15,20 @@ var placeSchema = new mongoose.Schema({
         ref : 'image'
     }],
     description : String,
+    placeId : String,
+    rating : {
+        value : Number,
+        count : Number
+    },
     reviews : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : 'review'
-    }],
-    placeId : String
+        content: String,
+        rating: Number,
+        author: {
+            id : mongoose.Schema.Types.ObjectId,
+            name : String,
+            image : String
+        }
+    }]
 }, {
     timestamps: {
         createdAt: 'createdAt',
@@ -29,5 +38,6 @@ var placeSchema = new mongoose.Schema({
 });
 
 placeSchema.index({location:'2dsphere'});
+placeSchema.index({placeId : 1});
 
 module.exports = mongoose.model('place', placeSchema);

@@ -14,5 +14,14 @@ module.exports = {
         } else {
             res.redirect('/');
         }
+    },
+    doesExist : function(req, res, next) {
+        Place.findOne({placeId : req.body.placeId}, function(err, place) {
+            this.onError(res, err);
+            if(place) {
+                req.place = place;
+                next();
+            }
+        });
     }
 };
