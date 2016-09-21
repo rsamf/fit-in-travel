@@ -15,53 +15,54 @@ const maxRadius = '10000',
     types = ['gym', 'park', 'spa'];
 function initMap() {
     //Set up map and origin
-    getMyCoords();
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: myCoords,
-        zoom: 14
-    });
-    myInfoWindow = new google.maps.InfoWindow({
-        content: myLocDom
-    });
-    myMarker = new google.maps.Marker({
-        position: myCoords,
-        map : map,
-        animation: google.maps.Animation.DROP,
-        title: myLocDom,
-        icon : '/images/icons/fa-user.png'
-    }).addListener('click', function() {
-        if(currentInfoWindow) currentInfoWindow.close();
-        myInfoWindow.open(map, this);
-        currentInfoWindow = this.infoWindow;
-    });
+    getMyCoords(function(myCoords){
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myCoords,
+            zoom: 14
+        });
+        myInfoWindow = new google.maps.InfoWindow({
+            content: myLocDom
+        });
+        myMarker = new google.maps.Marker({
+            position: myCoords,
+            map : map,
+            animation: google.maps.Animation.DROP,
+            title: myLocDom,
+            icon : '/images/icons/fa-user.png'
+        }).addListener('click', function() {
+            if(currentInfoWindow) currentInfoWindow.close();
+            myInfoWindow.open(map, this);
+            currentInfoWindow = this.infoWindow;
+        });
 
-    //Set up targets in surrounding origin
-    getRequests();
-    service = new google.maps.places.PlacesService(map);
-    //request from fit db
-    var request;
-    if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
-        request = new XMLHttpRequest();
-    } else if (window.ActiveXObject) { // IE 6 and older
-        request = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    request.open('GET', '/places', true);
-    request.onreadystatechange = function() {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            fitPlaces = JSON.parse(request.responseText);
-            for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
-                service.nearbySearch(requests[reqIndex], function(gPlace, status){
-                    if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        placeDown(gPlace, places, false);
-
-                    } else {
-                        console.error('Status not ok \n' + status);
-                    }
-                });
-            }
+        //Set up targets in surrounding origin
+        getRequests();
+        service = new google.maps.places.PlacesService(map);
+        //request from fit db
+        var request;
+        if (window.XMLHttpRequest) { // Mozilla, Safari, IE7+ ...
+            request = new XMLHttpRequest();
+        } else if (window.ActiveXObject) { // IE 6 and older
+            request = new ActiveXObject("Microsoft.XMLHTTP");
         }
-    };
-    request.send('?lng=' + myCoords.lng + '&lat=' + myCoords.lat);
+        request.open('GET', '/places', true);
+        request.onreadystatechange = function() {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                fitPlaces = JSON.parse(request.responseText);
+                for(var reqIndex = 0; reqIndex < requests.length; reqIndex++) {
+                    service.nearbySearch(requests[reqIndex], function(gPlace, status){
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            placeDown(gPlace, places, false);
+
+                        } else {
+                            console.error('Status not ok \n' + status);
+                        }
+                    });
+                }
+            }
+        };
+        request.send('?lng=' + myCoords.lng + '&lat=' + myCoords.lat);
+    });
 }
 
 function placeDown(obj, cache, ifFromFit){
@@ -95,7 +96,6 @@ function placeDown(obj, cache, ifFromFit){
     } else {
         if(obj.length) {
             for (var i = 0; i < obj.length; i++) {
-                //if(ifInArray(obj, cache));
                 var point = new google.maps.Marker({
                     position : obj[i].geometry.location,
                     map : map,
@@ -118,7 +118,6 @@ function placeDown(obj, cache, ifFromFit){
                 }
             }
         } else {
-            //if(ifInArray(obj, cache));
             var point = new google.maps.Marker({
                 position : obj.geometry.location,
                 map : map,
@@ -140,13 +139,6 @@ function placeDown(obj, cache, ifFromFit){
             }
         }
     }
-    function ifInArray(obj, array) {
-        for(var i = 0; i < array.length; i++) {
-            if(obj.place_id == array[i].placeId)
-                return true;
-        }
-        return false;
-    }
 }
 
 function getFitDetails(search){
@@ -157,11 +149,16 @@ function getFitDetails(search){
     }
     return null;
 }
-function getMyCoords(){
-    myCoords = {
-        lat: 34.2491550,
-        lng: -119.0704070
-    };
+function getMyCoords(callback){
+    var geo = navigator.geolocation;
+    geo.getCurrentPosition(function(position){
+        myCoords = {
+            lat: position.coordinates.latitude,
+            lng: position.coordinates.longitude
+        };
+        callback(myCoords);
+    });
+
 }
 
 function getRequests(){
