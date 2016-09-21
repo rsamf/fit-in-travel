@@ -64,7 +64,6 @@ function resetSemantic(){
 
 function showReviewModal(){
     console.log(currentDetails);
-    console.log(currentDetails.fit);
     var reviewList = document.getElementById('review-list');
     var fitReviewList = document.getElementById('review-list-byfit');
     var placeOfReview = document.getElementById('place-of-review');
@@ -116,46 +115,47 @@ function showReviewModal(){
         str += '<h2 class="ui header">No reviews yet.</h2>';
         reviewList.innerHTML = str;
     }
-    if(currentDetails.reviews) {
-        str =
-            '<div class="ui items">' +
-            '<div class="item">' +
+    str =
+        '<div class="ui items">' +
+        '<div class="item">' +
+        (
+            currentDetails.photos && currentDetails.photos[0] ?
             '<div class="ui small image">' +
             '<img src="' + currentDetails.photos[0].getUrl({
                 maxWidth: 150,
                 maxHeight: 150
             }) + '" alt="Place has no image">' +
-            '</div>' +
-            '<div class="content">' +
-            '<div class="header">' +
-            currentDetails.name +
-            '</div>' +
-            '<div class="meta">' +
-            '<span>' + currentDetails.formatted_phone_number + '</span>' +
-            '</div>' +
-            '<div class="meta">' +
-            '<span>' + currentDetails.formatted_address + '</span>' +
-            '</div>' +
-            (
-                currentDetails.website ?
-                    ('<div class="meta">' +
-                    '<span><a href="' + currentDetails.website + '">' + currentDetails.website + '</a></span>' +
-                    '</div>')
-                    : ''
-            ) +
-            (
-                currentDetails.rating ?
-                    ('<div class="meta">' +
-                    '<span class="ui star readonly rating" data-rating="' + Math.round(currentDetails.rating) + '" data-max-rating="5"></span>' +
-                    '</div>')
-                    : ''
-            ) +
-            '</div>' +
-            '</div>' +
-            '</div>'
-        ;
-        placeOfReview.innerHTML = str;
-    }
+            '</div>' : ''
+        ) +
+        '<div class="content">' +
+        '<div class="header">' +
+        currentDetails.name +
+        '</div>' +
+        '<div class="meta">' +
+        '<span>' + currentDetails.formatted_phone_number + '</span>' +
+        '</div>' +
+        '<div class="meta">' +
+        '<span>' + currentDetails.formatted_address + '</span>' +
+        '</div>' +
+        (
+            currentDetails.website ?
+                ('<div class="meta">' +
+                '<span><a href="' + currentDetails.website + '">' + currentDetails.website + '</a></span>' +
+                '</div>')
+                : ''
+        ) +
+        (
+            currentDetails.rating ?
+                ('<div class="meta">' +
+                '<span class="ui star readonly rating" data-rating="' + Math.round(currentDetails.rating) + '" data-max-rating="5"></span>' +
+                '</div>')
+                : ''
+        ) +
+        '</div>' +
+        '</div>' +
+        '</div>'
+    ;
+    placeOfReview.innerHTML = str;
     $('#review.ui.modal').modal('show');
     resetSemantic();
 
