@@ -153,8 +153,8 @@ function getMyCoords(callback){
     var geo = navigator.geolocation;
     geo.getCurrentPosition(function(position){
         myCoords = {
-            lat: position.coordinates.latitude,
-            lng: position.coordinates.longitude
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
         };
         callback(myCoords);
     });
