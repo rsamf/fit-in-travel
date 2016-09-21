@@ -65,7 +65,7 @@ passport.deserializeUser(function(obj, done){
 passport.use(new GoogleStrategy({
         clientID : "101781602185-amq1g5btc1d6p5qqbv5l51jnqkrg4afm.apps.googleusercontent.com",
         clientSecret : "KhbEM3y_zPs2A-uYDLSML3V4",
-        callbackURL : "http://ec2-54-69-58-183.us-west-2.compute.amazonaws.com/auth/google/callback",
+        callbackURL : "https://fit-in-travel.herokuapp.com/auth/google/callback",
         passReqToCallback: true
     },
     function(req, accessToken, refreshToken, profile, done){
